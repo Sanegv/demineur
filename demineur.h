@@ -83,4 +83,7 @@ int guess(Jeu jeu);
  * @param mines 
  */
 void game(int x, int y, int mines);
+
+void menu();
+
 #endif

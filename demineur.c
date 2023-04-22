@@ -62,12 +62,15 @@ void print_case(Jeu jeu, int x, int y){
 
 void print_jeu(Jeu jeu){
     printf("    ");
-    for(int i = 0; i < jeu.x; i++) printf("%d ", i);
+    for(int i = 0; i < jeu.x; i++) printf("%d ", i/10);
+    printf("\n");
+    printf("    ");
+    for(int i = 0; i < jeu.x; i++) printf("%d ", i%10);
     printf("\n    ");
     for(int i = 0; i < jeu.x; i++) printf("_ ");
     printf("\n");
     for(int i = 0; i < jeu.y; i++){
-        printf("%d | ", i);
+        printf("%02d |", i);
         for(int j = 0; j < jeu.x; j++){
             print_case(jeu, j, i);
         }
@@ -126,4 +129,50 @@ int guess(Jeu jeu){
 
     if(reveal_tile(jeu, x, y)) return 0;
     return 1;
+}
+
+void custom(int* x, int* y, int* mines){
+    do{
+        printf("Entrez la largeur (2 à 99), la hauteur (2 à 99), et le nombre de mines (1 à (hauteur*largeur)2)\n>");
+        scanf("%d %d %d", x, y, mines);
+    } while(*x < 2 || *y < 2 || *x > 99 || *y > 99 || *mines < 1 || *mines > (*x**y)/2);
+}
+
+void choice(int choix, int* x, int* y, int* mines){
+    if(choix == 1){
+        *x = 9;
+        *y = 9;
+        *mines = 10;
+    }
+
+    if(choix == 2){
+        *x = 9;
+        *y = 9;
+        *mines = 35;
+    }
+
+    if(choix == 3){
+        *x = 16;
+        *y = 16;
+        *mines = 45;
+    }
+
+    if(choix == 4){
+        *x = 16;
+        *y = 16;
+        *mines = 99;
+    }
+
+    if(choix == 5) custom(x, y, mines);
+}
+
+void menu(){
+    int x, y, mines, choix;
+    do{
+        printf("À quel type de partie voulez-vous jouer ?\n1. 9*9, 16 mines\n2. 9*9, 35 mines\n3. 16*16, 45 mines\n4. 16*16, 99 mines\n5. Personnalisée\n>");
+        scanf("%d", &choix);
+    } while(choix < 1 || choix > 5);
+
+    choice(choix, &x, &y, &mines);
+    game(x, y, mines);
 }
